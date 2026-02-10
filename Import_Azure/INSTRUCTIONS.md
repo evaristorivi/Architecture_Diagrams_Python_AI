@@ -118,7 +118,8 @@ All other VNets connected to a hub via peering are **Spokes**.
 - Resources must be placed **inside their correct subnet** based on NIC or IP configuration mappings
 - SQL Servers, Key Vaults, and Storage Accounts belong **inside their VNet cluster** (not inside a specific subnet, but within the VNet grouping)
 - Private Endpoints must be shown in their subnet with connections to target resources
-- Do NOT show NSGs as separate icons — they clutter the diagram
+- **Network Security Groups (NSGs)**: Show NSGs at the subnet level. Each subnet should display its associated NSG with inbound/outbound rules summary (e.g., "NSG: Allow-HTTPS") as a label or annotation below the subnet name or as a small badge icon
+- **Virtual Machine IPs**: Display both the VM name and its **primary private IP address** in the format `VM-Name (10.0.1.4)` to clearly show network addressing
 
 ### VNet Rendering Structure
 
@@ -128,8 +129,9 @@ Subscription Cluster
   └── Resource Group Cluster
         └── VNet Cluster (show name + CIDR, labeled HUB or SPOKE)
               ├── Subnet Cluster 1 (show name + CIDR)
-              │     ├── VMs / VMSS / LBs / Private Endpoints
-              ├── Subnet Cluster 2
+              │     ├── NSG Label (e.g., "NSG: Allow-Web" or "🔒 NSG: AllowHTTPS")
+              │     ├── VMs (with private IPs: VM-Name (10.0.1.4)) / VMSS / LBs / Private Endpoints
+              ├── Subnet Cluster 2 (with NSG label)
               │     ├── ...
               ├── SQL Servers (inside VNet, outside subnets)
               └── Key Vaults (inside VNet, outside subnets)
@@ -223,13 +225,16 @@ Color subnet backgrounds based on name keywords:
 
 - Every arrow must have a label describing the traffic type
 - VNet clusters must show name and CIDR range
-- Subnet clusters must show name and CIDR
+- Subnet clusters must show name, CIDR, and **NSG information** (e.g., "subnet-web (10.0.1.0/24) [NSG: Allow-HTTPS]")
 - Resources should show name and key attribute (e.g., VM size, VMSS capacity `x{count}`)
+- **Virtual Machines must include their primary private IP address** in the label (e.g., "webvm-01 (10.0.1.10)" or "webvm-01\n10.0.1.10")
+- **NSGs should display key rules or access model** as a subtitle under the subnet name (e.g., "Allow HTTP/HTTPS" or "Allow RDP")
 - External LBs should be labeled with 🌐 emoji and "(External)"
 - Firewall/NVA VMs should be labeled with 🔥 emoji and "(NVA)"
 - Hub VNets labeled with 🏢 HUB prefix, Spokes with 🌐 SPOKE prefix
 - Subscription clusters prefixed with ☁️ emoji
 - Resource Group clusters prefixed with 📂 emoji
+- NSG containers/badges prefixed with 🔒 emoji for security emphasis
 
 ### Cluster Style
 
@@ -243,24 +248,37 @@ All clusters use `style: rounded` and appropriate `margin` values:
 
 ## Resource Mapping Logic
 
-### NIC → Subnet Pre-indexing
+### NIC → Subnet Pre-indexing & IP Extraction
 
-**First pass**: Before mapping resources, iterate all NICs across all resource groups and build a `nic_id → subnet_id` map from `ip_configurations[0].subnet.id`. This map is essential for VM placement since VMs reference NICs, not subnets directly.
+**First pass**: Before mapping resources, iterate all NICs across all resource groups and build:
+- `nic_id → subnet_id` map from `ip_configurations[0].subnet.id` (essential for VM placement)
+- `nic_id → private_ip` map from `ip_configurations[0].private_ip_address` (for labeling resources with their IP addresses)
+- `nic_id → {subnet_id, private_ip}` combined lookup for efficient resource labeling
 
-### Finding Resource Subnets
+### Finding Resource Subnets & IP Addresses
 
-To determine which subnet a resource belongs to:
+To determine which subnet a resource belongs to and extract IP information:
 
-1. **VMs**: Trace `network_profile.network_interfaces[].id` → look up in NIC-subnet map
-2. **VMSS**: Get `virtual_machine_profile.network_profile.network_interface_configurations[0].ip_configurations[0].subnet.id`
-3. **Load Balancers**: Get `frontend_ip_configurations[0].subnet.id` (internal) or check for `public_ip_address` (external). External LBs may not have a subnet — place them in a subnet if one exists, otherwise in the VNet cluster.
-4. **Private Endpoints**: Get `subnet.id` directly from the PE object
-5. **Firewalls/Gateways**: Get `ip_configurations[0].subnet.id`
+1. **VMs**: Trace `network_profile.network_interfaces[].id` → look up in NIC-subnet map. **Extract private IP** from `nic.ip_configurations[0].private_ip_address`
+2. **VMSS**: Get `virtual_machine_profile.network_profile.network_interface_configurations[0].ip_configurations[0].subnet.id` and `private_ip_address`
+3. **Load Balancers**: Get `frontend_ip_configurations[0].subnet.id` (internal) or check for `public_ip_address` (external). Extract frontend IP if available. External LBs may not have a subnet — place them in a subnet if one exists, otherwise in the VNet cluster
+4. **Private Endpoints**: Get `subnet.id` directly from the PE object. Extract `private_ip_addresses[0]` if available
+5. **Firewalls/Gateways**: Get `ip_configurations[0].subnet.id` and `private_ip_address`
+
+**IP Address Display**: All VMs, NICs, and endpoints should display their **primary private IP address** in the diagram label (e.g., "webvm-01 (10.0.1.10)")
 
 ### Identifying External vs Internal Load Balancers
 
-- **External**: Has `frontend_ip_configurations[].public_ip_address.id` (non-empty) — receives Internet traffic
-- **Internal**: Has `frontend_ip_configurations[].subnet.id` only — internal traffic
+- **External**: Has `frontend_ip_configurations[].public_ip_address.id` (non-empty) — receives Internet traffic. Label with public IP if available
+- **Internal**: Has `frontend_ip_configurations[].subnet.id` only — internal traffic. Label with frontend private IP (e.g., "internal-lb (10.0.2.5)")
+
+### NSG → Subnet Mapping & Rule Extraction
+
+For each subnet, extract associated NSGs and create summary labels:
+- Iterate `subnet.network_security_group.id` to find the NSG
+- Extract key inbound/outbound rules from `nsg.security_rules[]` (rules with Priority < 200 or widely permissive ports)
+- Generate a concise label summarizing allowed traffic (e.g., "Allow: HTTP, HTTPS, SSH" or "Allow: RDP from 10.0.0.0/16")
+- Display NSG info below or alongside subnet name in the diagram
 
 ### Firewall/NVA VM Detection
 
@@ -282,13 +300,14 @@ To draw LB → backend edges: iterate `lb.backend_address_pools[].backend_ip_con
 
 ## What NOT to Include
 
-- Do NOT show NSGs as icons (too much clutter)
+- Do NOT show NSGs as separate detailed icon nodes, but DO show NSG **names and key rule summaries as labels** at the subnet level (important for security architecture understanding)
 - Do NOT show NICs separately (implied by VM placement)
 - Do NOT show Disks
 - Do NOT show Network Watchers
 - Do NOT create a separate "Data Tier" outside subscriptions — keep resources in their RG/VNet
 - Do NOT show empty resource groups
 - Do NOT show empty subnets without any resources — use a simple `Subnets` placeholder node if a subnet has no mapped resources (so cluster isn't empty)
+- Do NOT show individual NSG rules in full detail (too verbose) — just use key rule summaries (e.g., "Allow-HTTPS", "Deny-RDP") as labels
 
 ---
 

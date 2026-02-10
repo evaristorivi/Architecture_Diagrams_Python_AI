@@ -41,3 +41,6 @@ terraform-demo/.git
 # Arch_Diagrams/diagrams/*.png
 # Arch_Diagrams/diagrams/*.dot
 # Arch_Diagrams/diagrams/*.drawio
+Import_Azure/exports/
+Import_Azure/reports/
+Import_Azure/diagrams/

@@ -55,4 +55,10 @@ azure-mgmt-subscription
 # Diagram Generation
 diagrams>=0.24.4
 graphviz>=0.20.3
+# NOTA IMPORTANTE - graphviz2drawio en Windows:
+# Si estás en Windows e instalando esto falla por "Microsoft Visual C++ 14.0 not found",
+# usa Docker en lugar de instalar localmente:
+#   python run_diagram_enhanced_in_docker.py
+# Docker proporciona un entorno Linux donde graphviz2drawio funciona perfectamente.
+# Ver: WINDOWS_GRAPHVIZ_SOLUTION.md
 graphviz2drawio>=1.1.0

@@ -145,6 +145,20 @@ class AzureInfrastructureExporter:
                 print_message(f"\t\t\tFailed to get VNet details for {vnet_name}: {e}", Colors.WARNING)
                 vnets_full.append(vnet)  # Fallback to shallow data
         
+        # Get NSGs with FULL details (list only returns shallow data without security_rules)
+        nsgs_shallow = safe_api_call(network.network_security_groups.list, resource_group_name)
+        nsgs_full = []
+        for nsg in nsgs_shallow:
+            nsg_name = nsg.get('name', '')
+            try:
+                nsg_detail = network.network_security_groups.get(resource_group_name, nsg_name)
+                nsgs_full.append(nsg_detail.as_dict())
+                rules_count = len(nsg_detail.as_dict().get('security_rules', []))
+                print(f"\t\t\tNSG '{nsg_name}': {rules_count} security rules")
+            except Exception as e:
+                print_message(f"\t\t\tFailed to get NSG details for {nsg_name}: {e}", Colors.WARNING)
+                nsgs_full.append(nsg)  # Fallback to shallow data
+        
         return {
             'applicationGateways': safe_api_call(network.application_gateways.list, resource_group_name),
             'loadBalancers': safe_api_call(network.load_balancers.list, resource_group_name),
@@ -155,7 +169,7 @@ class AzureInfrastructureExporter:
             'subnets': [],  # Collected from VNets
             'publicIpAddresses': safe_api_call(network.public_ip_addresses.list, resource_group_name),
             'applicationSecurityGroups': safe_api_call(network.application_security_groups.list, resource_group_name),
-            'networkSecurityGroups': safe_api_call(network.network_security_groups.list, resource_group_name),
+            'networkSecurityGroups': nsgs_full,
             'networkInterfaces': safe_api_call(network.network_interfaces.list, resource_group_name),
             'firewalls': safe_api_call(network.azure_firewalls.list, resource_group_name),
             'routeTables': safe_api_call(network.route_tables.list, resource_group_name),
