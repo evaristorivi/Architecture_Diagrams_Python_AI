@@ -330,7 +330,7 @@ python generate_network_flow_diagram_enhanced.py \
 
 ### Paso 3: (Opcional) Personalizar con IA
 
-El archivo [INSTRUCTIONS.md](./INSTRUCTIONS.md) contiene un **megaprompt** para la IA que describe exactamente cómo generar scripts de diagrama.
+El archivo [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md) contiene un **megaprompt** para la IA que describe exactamente cómo generar scripts de diagrama.
 
 #### Usa el megaprompt como base:
 
@@ -357,7 +357,7 @@ Genera el script Python completo.
 
 #### Edita el megaprompt si es necesario:
 
-Si deseas personalizar la forma en que se generan los diagramas, modifica [INSTRUCTIONS.md](./INSTRUCTIONS.md) con tus requisitos específicos.
+Si deseas personalizar la forma en que se generan los diagramas, modifica [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md) con tus requisitos específicos.
 
 ---
 
@@ -417,7 +417,7 @@ chmod +x pipeline.sh
 
 ### Cómo Usar INSTRUCTIONS.md como Megaprompt
 
-El archivo [INSTRUCTIONS.md](./INSTRUCTIONS.md) es un **megaprompt completo** para IA que describe:
+El archivo [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md) es un **megaprompt completo** para IA que describe:
 
 1. **Arquitectura de la solución**
 2. **Estructura de datos del JSON**

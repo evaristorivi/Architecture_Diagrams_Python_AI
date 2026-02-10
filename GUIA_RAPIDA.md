@@ -89,7 +89,7 @@ python run_diagram_enhanced_in_docker.py
 
 ## 🤖 Uso con IA
 
-Usa [INSTRUCTIONS.md](./INSTRUCTIONS.md) como **megaprompt** para generar scripts personalizados:
+Usa [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md) como **megaprompt** para generar scripts personalizados:
 
 ```
 Prompt para Claude/ChatGPT:
@@ -147,7 +147,7 @@ python run_diagram_enhanced_in_docker.py
 ## 🔗 Recursos
 
 - [Documentación completa](./GUIA_COMPLETA.md)
-- [Instrucciones para IA](./INSTRUCTIONS.md)
+- [Instrucciones para IA](Import_Azure/INSTRUCTIONS.md)
 - [Azure Python SDK](https://docs.microsoft.com/python/azure/)
 - [Diagrams Library](https://diagrams.mingrammer.com/)
 - [Draw.io](https://draw.io/)

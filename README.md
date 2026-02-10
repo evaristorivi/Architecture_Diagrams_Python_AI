@@ -441,7 +441,7 @@ reports/                      (creados por azure_infrastructure_analyzer.py)
    - Principiante: [GUIA_RAPIDA.md](./GUIA_RAPIDA.md)
    - Completo: [GUIA_COMPLETA.md](./GUIA_COMPLETA.md)
    - Verificar: [MATRIZ_REQUISITOS.md](./MATRIZ_REQUISITOS.md)
-   - Personalizar: [INSTRUCTIONS.md](./INSTRUCTIONS.md)
+   - Personalizar: [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md)
 3. **Ejecuta tus primeros comandos**
 4. **Revisa tus diagramas**
 

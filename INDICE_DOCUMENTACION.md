@@ -24,7 +24,7 @@ Este proyecto permite exportar tu infraestructura Azure e **generar diagramas pr
 📖 Contiene: Checklist de instalación, verificación, tabla de errores
 
 ### Si quieres **Personalizar con IA**
-👉 **Lee:** [INSTRUCTIONS.md](./INSTRUCTIONS.md)  
+👉 **Lee:** [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md)  
 ⏱️ **Tiempo**: 15 minutos (lectura) + tiempo de IA  
 📖 Contiene: Megaprompt para generar scripts personalizados con Claude/ChatGPT
 
@@ -63,7 +63,7 @@ Este proyecto permite exportar tu infraestructura Azure e **generar diagramas pr
 ### Opción C: Personalizar for Tus Necesidades (1h)
 1. Lee [GUIA_RAPIDA.md](./GUIA_RAPIDA.md) (5 min)
 2. Ejecuta los comandos básicos (10 min)
-3. Lee [INSTRUCTIONS.md](./INSTRUCTIONS.md) (15 min)
+3. Lee [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md) (15 min)
 4. Copia el prompt a Claude/ChatGPT con tu requisito (5 min)
 5. Integra el script generado (20 min)
 6. ✅ Tienes diagramas personalizados
@@ -129,7 +129,7 @@ Este proyecto permite exportar tu infraestructura Azure e **generar diagramas pr
 
 ### Para Cloud Architects
 1. Lee: [GUIA_COMPLETA.md](./GUIA_COMPLETA.md) completa
-2. Personaliza: Usando [INSTRUCTIONS.md](./INSTRUCTIONS.md) con IA
+2. Personaliza: Usando [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md) con IA
 3. Crea: Diagramas que muestren lo que necesites
 
 ### Para Administradores Azure
@@ -138,7 +138,7 @@ Este proyecto permite exportar tu infraestructura Azure e **generar diagramas pr
 3. Ejecuta: `azure_export.py` y `generate_network_flow_diagram_enhanced.py`
 
 ### Para Desarrolladores
-1. Lee: [INSTRUCTIONS.md](./INSTRUCTIONS.md)
+1. Lee: [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md)
 2. Personaliza: Crea tus propios generadores con el megaprompt
 3. Contribuye: Mejora los scripts existentes
 
@@ -153,7 +153,7 @@ Este proyecto permite exportar tu infraestructura Azure e **generar diagramas pr
 → [GUIA_COMPLETA.md](./GUIA_COMPLETA.md) "Automatización" + [run_diagram_enhanced_in_docker.py](./run_diagram_enhanced_in_docker.py)
 
 ### "Necesito diagramas que muestren costos"
-→ [INSTRUCTIONS.md](./INSTRUCTIONS.md) + prompt IA personalizado
+→ [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md) + prompt IA personalizado
 
 ### "Tenemos 50 suscripciones"
 → [run_exports.py](./run_exports.py) + [run_diagram_enhanced_in_docker.py](./run_diagram_enhanced_in_docker.py)
@@ -176,7 +176,7 @@ Marca mientras avanzas:
 - [ ] Ejecuté mis primeros comandos
 - [ ] Generé mi primer diagrama
 - [ ] Leí [GUIA_COMPLETA.md](./GUIA_COMPLETA.md) (si necesito más)
-- [ ] Leí [INSTRUCTIONS.md](./INSTRUCTIONS.md) (si quiero personalizar)
+- [ ] Leí [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md) (si quiero personalizar)
 - [ ] Personalicé mi propio script (si lo necesitaba)
 
 ---
@@ -225,7 +225,7 @@ python azure_infrastructure_analyzer.py
 → [MATRIZ_REQUISITOS.md](./MATRIZ_REQUISITOS.md)
 
 **¿Quiero crear scripts personalizados?**
-→ [INSTRUCTIONS.md](./INSTRUCTIONS.md)
+→ [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md)
 
 **¿Necesito ejemplos específicos?**
 → Busca en la sección "Ejemplos" de GUIA_COMPLETA.md
@@ -242,7 +242,7 @@ python azure_infrastructure_analyzer.py
 | Empezar rápido | [GUIA_RAPIDA.md](./GUIA_RAPIDA.md) |
 | Todo explicado | [GUIA_COMPLETA.md](./GUIA_COMPLETA.md) |
 | Verificar requisitos | [MATRIZ_REQUISITOS.md](./MATRIZ_REQUISITOS.md) |
-| Personalizar con IA | [INSTRUCTIONS.md](./INSTRUCTIONS.md) |
+| Personalizar con IA | [INSTRUCTIONS.md](Import_Azure/INSTRUCTIONS.md) |
 | Ver este índice | Estás aquí 👈 |
 
 ---
