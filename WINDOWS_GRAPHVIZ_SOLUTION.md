@@ -7,7 +7,7 @@ En Windows, al intentar instalar `graphviz2drawio` ves este error:
 ```
 ERROR: Microsoft Visual C++ 14.0 or greater is required
 error: Microsoft Visual C++ 14.0 is required. Get it with "Microsoft C++ Build Tools"
-failed building wheel for graphviz2drawio
+ERROR: Failed building wheel for pygraphviz
 ```
 
 ### ¿Por qué sucede?
