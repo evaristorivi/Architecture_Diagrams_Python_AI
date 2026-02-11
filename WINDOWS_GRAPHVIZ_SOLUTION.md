@@ -88,10 +88,10 @@ Cuando te pida qué instalar:
 
 ```bash
 # Actualiza pip, setuptools, wheel
-pip install --upgrade pip setuptools wheel
+python.exe -m pip install --upgrade pip setuptools wheel
 
 # Ahora intenta instalar graphviz2drawio
-pip install graphviz2drawio
+pip install pygraphviz --config-settings="--global-option=build_ext" --config-settings="--global-option=-IC:\Program Files\Graphviz\include" --config-settings="--global-option=-LC:\Program Files\Graphviz\lib"
 ```
 
 **Tiempo total:** 30-45 minutos (descarga e instalación de Build Tools)
